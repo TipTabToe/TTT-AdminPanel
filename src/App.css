@@ -1,0 +1,36 @@
+#app {
+  margin: auto;
+  width: 50%;
+}
+
+.header {
+  background-color: darkgrey;
+  text-align: center;
+  padding: 5px;
+  border: black solid 1px;
+  border-radius: 5px 5px 0 0;
+}
+
+.question {
+  background-color: darkgrey;
+  padding: 0 0 1px 5px;
+  border-radius: 5px;
+  border: black solid 1px;
+}
+
+h3 {
+  padding: 0;
+  margin: 0;
+}
+
+#addQuestion {
+  min-width: 120px;
+  background-color: aquamarine;
+  border: black solid;
+  border-width: 0 1px 1px 1px;
+  border-radius: 5px;
+}
+
+.button_ {
+  margin: auto;
+}
