@@ -11,6 +11,10 @@
   border-radius: 5px 5px 0 0;
 }
 
+#page-title {
+  text-align: center;
+}
+
 .question {
   background-color: darkgrey;
   padding: 0 0 1px 5px;
@@ -20,17 +24,37 @@
 
 h3 {
   padding: 0;
-  margin: 0;
+  margin: 0;++
 }
 
-#addQuestion {
+.input-box {
   min-width: 120px;
   background-color: aquamarine;
   border: black solid;
   border-width: 0 1px 1px 1px;
   border-radius: 5px;
+  padding: 0 10px 10px 10px;
+}
+
+.input-box * {
+  margin-bottom: 20px;
+}
+
+.send-button * {
+  margin-bottom: 0;
 }
 
 .button_ {
   margin: auto;
+}
+
+body {
+  background-color: chartreuse;
+}
+
+.category {
+  background-color: crimson;
+  padding: 5px;
+  border-radius: 5px;
+  border: black solid 1px;
 }
