@@ -20,11 +20,12 @@
   padding: 0 0 1px 5px;
   border-radius: 5px;
   border: black solid 1px;
+  margin-bottom: 10px;
 }
 
 h3 {
   padding: 0;
-  margin: 0;++
+  margin: 0;
 }
 
 .input-box {
@@ -49,7 +50,7 @@ h3 {
 }
 
 body {
-  background-color: chartreuse;
+  background-color: bisque;
 }
 
 .category {

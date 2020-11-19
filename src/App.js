@@ -6,11 +6,14 @@ import InputLabel from '@material-ui/core/InputLabel'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import TextField from '@material-ui/core/TextField'
+import { IconButton } from '@material-ui/core'
+import DeleteIcon from '@material-ui/icons/Delete'
+const API_URL = 'http://localhost:8080/api'
 
 const App = () => {
-  const API_URL = 'http://localhost:8080/api'
   const [categories, setCategories] = React.useState([])
   const [questions, setQuestions] = React.useState([])
+  const [questionCategory, setQuestionCategory] = React.useState(0)
 
   const fetchCategories = () => fetch(`${API_URL}/categories`)
     .then(res => res.json())
@@ -30,24 +33,68 @@ const App = () => {
   return (
     <div id='app'>
       <h1 id='page-title'>TipTabToe</h1>
-      <AddCategoryForm/>
-      <AddQuestionForm categories={categories}/>
+      <AddCategoryForm
+        categories={categories}
+        setCategories={setCategories}
+      />
+      <AddQuestionForm
+        categories={categories}
+        questions={questions}
+        setQuestions={setQuestions}
+      />
 
       <div>
         <h2>Categories</h2>
-        {categories.map((c, i) => <p key={i} className='category'>{c.name}</p>)}
+        {categories.map((c, i) =>
+          <div key={i}>
+            {c.name}
+            <IconButton
+              onClick={() =>
+                fetch(`${API_URL}/categories/${c.id}`, { method: 'delete' })
+                  .then(() => setCategories(categories.filter(cat => c.id !== cat.id)))
+              }
+            ><DeleteIcon/></IconButton>
+          </div>)}
       </div>
       <div>
         <h2>Questions</h2>
-        {questions.map((q, i) => <Question key={i} question={q}/>)}
+        <InputLabel id='question-category-selection-label'>Category</InputLabel>
+        <Select
+          labelId='category-selection-label'
+          id='category-selection'
+          onChange={(e) => {
+            console.log('setting category to:', e.target.value)
+            setQuestionCategory(e.target.value)
+          }}
+          value={questionCategory}
+          fullWidth={true}
+          placeholder='Select category'
+        >
+          <MenuItem value={0}>All</MenuItem>
+          {categories.map((c, i) =>
+            <MenuItem key={i} value={c.id}>{c.name}</MenuItem>
+          )}
+        </Select>
+        {questionCategory === 0
+          ? questions
+              .map((q, i) => <Question key={i} question={q} questions={questions} setQuestions={setQuestions}/>)
+          : questions
+            .filter(q => q.category.id === questionCategory)
+            .map((q, i) => <Question key={i} question={q} questions={questions} setQuestions={setQuestions}/>)
+        }
       </div>
     </div>
-
   )
 }
 
-const Question = ({ question }) =>
+const Question = ({ question, questions, setQuestions }) =>
   <div className='question'>
+    <IconButton
+      onClick={() =>
+        fetch(`${API_URL}/questions/${question.id}`, { method: 'delete' })
+          .then(() => setQuestions(questions.filter(q => q.id !== question.id)))
+      }
+    ><DeleteIcon/></IconButton>
     <h3>{question.question}</h3>
 
     <p><b>Category:</b></p>
@@ -56,11 +103,14 @@ const Question = ({ question }) =>
     <p>{question.correctAnswer}</p>
     <p><b>Wrong answers:</b></p>
     <ul>
-      {question.answers.filter(a => a !== question.correctAnswer).map((a, i) => <li key={i}>{a}</li>)}
+      {question.answers
+        .filter(a => a !== question.correctAnswer)
+        .map((a, i) => <li key={i}>{a}</li>)
+      }
     </ul>
   </div>
 
-const AddCategoryForm = () => {
+const AddCategoryForm = ({ categories, setCategories }) => {
   const [categoryName, setCategoryName] = React.useState('')
 
   return (
@@ -81,6 +131,20 @@ const AddCategoryForm = () => {
         variant='contained'
         onClick={() => {
           console.log(categoryName)
+          fetch(
+            `${API_URL}/categories`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ name: categoryName })
+            }
+          )
+            .then(res => res.json())
+            .then(json => setCategories(categories.concat(json)))
+            .then(() => setCategoryName(''))
+            .catch(console.log)
         }}
       >
         Add Category
@@ -89,13 +153,21 @@ const AddCategoryForm = () => {
   )
 }
 
-const AddQuestionForm = ({ categories }) => {
+const AddQuestionForm = ({ categories, questions, setQuestions }) => {
   const [question, setQuestion] = React.useState('')
   const [category, setCategory] = React.useState('')
   const [correctAnswer, setCorrectAnswer] = React.useState('')
   const [answer2, setAnswer2] = React.useState('')
   const [answer3, setAnswer3] = React.useState('')
   const [answer4, setAnswer4] = React.useState('')
+
+  const clearFields = () => {
+    setQuestion('')
+    setCorrectAnswer('')
+    setAnswer2('')
+    setAnswer3('')
+    setAnswer4('')
+  }
 
   return (
     <div id='addQuestion' className='input-box'>
@@ -125,10 +197,34 @@ const AddQuestionForm = ({ categories }) => {
         variant='outlined'
       />
       <TextField
-        id='answer-field'
+        id='correct-answer-field'
         label='Correct answer'
         value={correctAnswer}
         onChange={e => setCorrectAnswer(e.target.value)}
+        fullWidth={true}
+        variant='outlined'
+      />
+      <TextField
+        id='answer-field-2'
+        label='Answer 2'
+        value={answer2}
+        onChange={e => setAnswer2(e.target.value)}
+        fullWidth={true}
+        variant='outlined'
+      />
+      <TextField
+        id='answer-field-3'
+        label='Answer 3'
+        value={answer3}
+        onChange={e => setAnswer3(e.target.value)}
+        fullWidth={true}
+        variant='outlined'
+      />
+      <TextField
+        id='answer-field-4'
+        label='Answer 4'
+        value={answer4}
+        onChange={e => setAnswer4(e.target.value)}
         fullWidth={true}
         variant='outlined'
       />
@@ -145,6 +241,19 @@ const AddQuestionForm = ({ categories }) => {
               answers: [correctAnswer, answer2, answer3, answer4]
             }
           console.log(newQuestion)
+          fetch(
+            `${API_URL}/questions`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(newQuestion)
+            })
+            .then(res => res.json())
+            .then(json => setQuestions(questions.concat(json)))
+            .then(clearFields)
+            .catch(console.log)
         }}
       >
         Add Question
