@@ -8,7 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import TextField from '@material-ui/core/TextField'
 import { IconButton } from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete'
-const API_URL = 'http://localhost:8080/api'
+const API_URL = 'http://dradge.xyz:3500/api'
 
 const App = () => {
   const [categories, setCategories] = React.useState([])
