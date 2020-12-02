@@ -8,8 +8,8 @@ import MenuItem from '@material-ui/core/MenuItem'
 import TextField from '@material-ui/core/TextField'
 import { IconButton } from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete'
-const API_URL = 'http://dradge.xyz:3500/api'
-
+// const API_URL = 'http://dradge.xyz:3500/api'
+const API_URL = 'http://ttt-backend.eu-central-1.elasticbeanstalk.com/api'
 const App = () => {
   const [categories, setCategories] = React.useState([])
   const [questions, setQuestions] = React.useState([])
