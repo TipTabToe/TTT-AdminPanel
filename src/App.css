@@ -60,7 +60,7 @@ h3 {
   border: black solid 1px;
   border-radius: 5px;
   padding: 0 10px 10px 10px;
-  margin-bottom: 10px;
+  margin-bottom: 40px;
 }
 
 .input-box * {
@@ -81,8 +81,8 @@ h3 {
   background-color: #99e08c;
   border: black solid 1px;
   border-radius: 5px;
-  padding: 0 10px 10px 10px;
-  margin-bottom: 10px;
+  padding: 0 10px 0 10px;
+  margin-bottom: 40px;
 }
 
 #questions {
@@ -106,5 +106,5 @@ h3 {
 }
 
 .send-button {
-  margin: auto;
+  width: 100%;
 }

@@ -524,7 +524,7 @@ const AddCategoryForm = ({ state }) => {
       <br/>
       <Button
         className='send-button'
-        color='secondary'
+        color={ICON_COLOR}
         variant='contained'
         onClick={() => {
           console.log(categoryName)
@@ -628,7 +628,7 @@ const AddQuestionForm = ({ state }) => {
         variant='outlined'
       />
       <Button
-        color='secondary'
+        color={ICON_COLOR}
         variant='contained'
         className='send-button'
         onClick={() => {
