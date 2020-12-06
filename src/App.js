@@ -20,8 +20,11 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import EditIcon from '@material-ui/icons/Edit'
 import CloseIcon from '@material-ui/icons/Close'
 
+const ICON_COLOR = 'default'
+
 const API_URL = 'http://localhost:8080/api'
 // const API_URL = 'http://ttt-backend.eu-central-1.elasticbeanstalk.com/api'
+
 const App = () => {
   const [categories, setCategories] = React.useState([])
   const [questions, setQuestions] = React.useState([])
@@ -160,7 +163,7 @@ const Category = ({ state, category }) =>
       />
       <br/>
     </div>
-    <h3>{category.name}</h3>
+    <h3 className='sub-header'>{category.name}</h3>
   </div>
 
 const DeleteCategoryButton = ({ category, state }) => {
@@ -181,7 +184,7 @@ const DeleteCategoryButton = ({ category, state }) => {
       <Tooltip title={'Delete category'}>
         <IconButton
           variant='contained'
-          color='secondary'
+          color={ICON_COLOR}
           onClick={() => {
             if (questions.filter(q => q.category.id === category.id).length === 0) {
               setOpen(true)
@@ -238,7 +241,7 @@ const DeleteQuestionButton = ({ state, question }) => {
       <Tooltip title={'Delete question'}>
         <IconButton
           variant='contained'
-          color='secondary'
+          color={ICON_COLOR}
           onClick={() => setOpen(true)}
         >
           <DeleteIcon/>
@@ -309,8 +312,9 @@ const EditCategoryButton = (props) => {
     <>
       <Tooltip title={'Edit category'}>
         <IconButton
+          className='edit-button'
           variant='contained'
-          color='secondary'
+          color={ICON_COLOR}
           onClick={() => setOpen(true)}
         >
           <EditIcon/>
@@ -389,8 +393,9 @@ const EditQuestionButton = (props) => {
     <>
       <Tooltip title={'Edit question'}>
         <IconButton
+          className='edit-button'
           variant='contained'
-          color='secondary'
+          color={ICON_COLOR}
           onClick={() => setOpen(true)}
         >
           <EditIcon/>
@@ -485,7 +490,7 @@ const Question = ({ question, state }) => (
   <div className='question'>
     <DeleteQuestionButton question={question} state={state} />
     <EditQuestionButton question={question} state={state} />
-    <h3>{question.question}</h3>
+    <h3 className='sub-header'>{question.question}</h3>
 
     <p><b>Category:</b></p>
     {question.category.name}
