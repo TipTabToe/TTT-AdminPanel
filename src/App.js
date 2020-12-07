@@ -22,8 +22,9 @@ import CloseIcon from '@material-ui/icons/Close'
 
 const ICON_COLOR = 'default'
 
-const API_URL = 'http://localhost:8080/api'
+// const API_URL = 'http://localhost:8080/api'
 // const API_URL = 'http://ttt-backend.eu-central-1.elasticbeanstalk.com/api'
+const API_URL = 'http://ec2-18-192-24-188.eu-central-1.compute.amazonaws.com/api'
 
 const App = () => {
   const [categories, setCategories] = React.useState([])
